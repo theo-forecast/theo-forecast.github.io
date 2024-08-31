@@ -395,11 +395,11 @@
             <tbody>
                 <tr>
                     <td>Kamala Harris (D)</td>
-                    <td class="chance dem">7 in 10</td>
+                    <td class="chance dem">8 in 10</td>
                 </tr>
                 <tr>
                     <td>Donald Trump (R)</td>
-                    <td class="chance rep">3 in 10</td>
+                    <td class="chance rep">2 in 10</td>
                 </tr>
             </tbody>
         </table>
@@ -439,11 +439,11 @@
             <tbody>
                 <tr>
                     <td>Kamala Harris (D)</td>
-                    <td class="chance dem">6 in 10</td>
+                    <td class="chance dem">7 in 10</td>
                 </tr>
                 <tr>
                     <td>Donald Trump (R)</td>
-                    <td class="chance rep">4 in 10</td>
+                    <td class="chance rep">3 in 10</td>
                 </tr>
             </tbody>
         </table>
@@ -527,11 +527,11 @@
             <tbody>
                 <tr>
                     <td>Kamala Harris (D)</td>
-                    <td class="chance dem">6 in 10</td>
+                    <td class="chance dem">7 in 10</td>
                 </tr>
                 <tr>
                     <td>Donald Trump (R)</td>
-                    <td class="chance rep">4 in 10</td>
+                    <td class="chance rep">3 in 10</td>
                 </tr>
             </tbody>
         </table>
@@ -571,11 +571,11 @@
             <tbody>
                 <tr>
                     <td>Kamala Harris (D)</td>
-                    <td class="chance dem">4 in 10</td>
+                    <td class="chance dem">5 in 10</td>
                 </tr>
                 <tr>
                     <td>Donald Trump (R)</td>
-                    <td class="chance rep">6 in 10</td>
+                    <td class="chance rep">5 in 10</td>
                 </tr>
             </tbody>
         </table>
@@ -659,11 +659,11 @@
             <tbody>
                 <tr>
                     <td>Kamala Harris (D)</td>
-                    <td class="chance dem">3 in 10</td>
+                    <td class="chance dem">1 in 10</td>
                 </tr>
                 <tr>
                     <td>Donald Trump (R)</td>
-                    <td class="chance rep">7 in 10</td>
+                    <td class="chance rep">9 in 10</td>
                 </tr>
             </tbody>
         </table>
@@ -703,11 +703,11 @@
             <tbody>
                 <tr>
                     <td>Kamala Harris (D)</td>
-                    <td class="chance dem">3 in 10</td>
+                    <td class="chance dem">1 in 10</td>
                 </tr>
                 <tr>
                     <td>Donald Trump (R)</td>
-                    <td class="chance rep">7 in 10</td>
+                    <td class="chance rep">9 in 10</td>
                 </tr>
             </tbody>
         </table>
@@ -731,50 +731,6 @@
         <div class="error-margin">Error margin: ± 1 percentage point</div>
     </div>
 
-    <!-- Ohio -->
-    <div class="state-forecast">
-        <div class="header">
-            <div class="state">Ohio</div>
-            <div class="status toss-up">Toss Up</div>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Candidate</th>
-                    <th class="chance">Chance of Winning</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Kamala Harris (D)</td>
-                    <td class="chance dem">5 in 10</td>
-                </tr>
-                <tr>
-                    <td>Donald Trump (R)</td>
-                    <td class="chance rep">5 in 10</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="forecast-label">Forecasted Vote Share</div>
-        <div class="chart-container">
-            <div class="chart-dot other-dot" style="left: 3%; top: 20px;" title="Other: 3%"></div>
-            <div class="chart-label other" style="left: 9%; top: 20px;">3%</div>
-            <div class="chart-dot dem-dot" style="left: 44.66%; top: 38px;" title="Kamala Harris (D): 44.66%"></div>
-            <div class="chart-label dem" style="left: 50.66%; top: 38px;">44.66%</div>
-            <div class="chart-dot rep-dot" style="left: 51.04%; top: 8px;" title="Donald Trump (R): 51.04%"></div>
-            <div class="chart-label rep" style="left: 57.04%; top: 8px;">51.04%</div>
-        </div>
-        <div class="x-axis">
-            <span>0%</span>
-            <span>20%</span>
-            <span>40%</span>
-            <span>60%</span>
-            <span>80%</span>
-            <span>100%</span>
-        </div>
-        <div class="error-margin">Error margin: ± 1 percentage point</div>
-    </div>
-
 </div>
 
 
@@ -786,21 +742,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const timeLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
+    const timeLabels = ['July 22', 'July 29', 'Aug 5', 'Aug 12', 'Aug 19', 'Aug 26', 'Sept 2'];
     
     const winProbabilityData = {
         labels: timeLabels,
         datasets: [
             {
                 label: 'Kamala Harris',
-                data: [75, 78, 80, 82, 81],
+                data: [54, 67, 71, 74, 78, 82, 0],
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
                 fill: false, 
             },
             {
                 label: 'Donald Trump',
-                data: [25, 22, 20, 18, 19],
+                data: [46, 33, 29, 26, 22, 18, 0],
                 borderColor: '#e74c3c',
                 backgroundColor: 'rgba(231, 76, 60, 0.2)',
                 fill: false,
@@ -813,14 +769,14 @@
         datasets: [
             {
                 label: 'Kamala Harris',
-                data: [50, 51, 52, 53, 51],
+                data: [45, 44, 48, 48, 49, 50, ],
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
                 fill: false,
             },
             {
                 label: 'Donald Trump',
-                data: [48, 47, 46, 45, 47],
+                data: [44, 43, 46, 46, 45, 46],
                 borderColor: '#e74c3c',
                 backgroundColor: 'rgba(231, 76, 60, 0.2)',
                 fill: false,
@@ -833,14 +789,14 @@
         datasets: [
             {
                 label: 'Kamala Harris',
-                data: [270, 275, 280, 285, 287],
+                data: [272, 276, 278, 281, 287, 293],
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
                 fill: false,
             },
             {
                 label: 'Donald Trump',
-                data: [260, 255, 250, 245, 251],
+                data: [266, 262, 260, 257, 251, 245],
                 borderColor: '#e74c3c',
                 backgroundColor: 'rgba(231, 76, 60, 0.2)',
                 fill: false,
