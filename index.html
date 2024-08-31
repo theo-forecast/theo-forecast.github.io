@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 Swing States Election Forecast</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;700&display=swap');
+
+        :root {
+            --color-background: #f4f4f9;
+            --color-text: #333;
+            --color-primary: #2c3e50;
+            --color-secondary: #7f8c8d;
+            --color-dem: #3498db;
+            --color-rep: #e74c3c;
+            --color-tossup: #f39c12;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--color-background);
+            color: var(--color-text);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: var(--color-primary);
+        }
+
+        .electoral-college-chart {
+            background-color: var(--color-card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px var(--color-card-shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ecf0f1;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .dem-votes, .rep-votes {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .dem-votes {
+            background-color: var(--color-dem);
+            border-radius: 20px 0 0 20px;
+        }
+
+        .rep-votes {
+            background-color: var(--color-rep);
+            border-radius: 0 20px 20px 0;
+        }
+
+        .probabilities {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .probability {
+            text-align: center;
+            flex: 1;
+        }
+
+        .probability-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .probability-label {
+            font-size: 14px;
+            color: var(--color-secondary);
+        }
+
+        .popular-vote {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .popular-vote-chart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30px;
+            background-color: #ecf0f1;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .dem-popular, .rep-popular, .other-popular {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .dem-popular { background-color: var(--color-dem); }
+        .rep-popular { background-color: var(--color-rep); }
+        .other-popular { background-color: var(--color-secondary); }
+
+        .states-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .state-forecast {
+            background-color: var(--color-card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px var(--color-card-shadow);
+            padding: 20px;
+            width: calc(33.33% - 20px);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .state {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .toss-up { background-color: var(--color-tossup); }
+        .lean-d { background-color: var(--color-dem); }
+        .lean-r { background-color: var(--color-rep); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ecf0f1;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+        }
+
+        .chance {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .rep { color: var(--color-rep); }
+        .dem { color: var(--color-dem); }
+
+        .forecast-label {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px; /* Adjusted height */
+            margin-top: 10px;
+            background-image: linear-gradient(to right, #ecf0f1 1px, transparent 1px);
+            background-size: 20% 100%;
+            border-radius: 6px;
+        }
+
+        .chart-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .chart-label {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+
+        .other-dot { background-color: #95a5a6; }
+        .rep-dot { background-color: var(--color-rep); }
+        .dem-dot { background-color: var(--color-dem); }
+
+        .x-axis {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--color-secondary);
+            margin-top: 10px;
+        }
+
+        .error-margin {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            color: var(--color-secondary);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            margin-top: 30px;
+            background-color: var(--color-card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px var(--color-card-shadow);
+            padding: 20px;
+            position: relative;
+            height: 400px; /* Adjusted height */
+        }
+
+        .charts-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .chart-wrapper-small {
+            flex: 1;
+            min-width: 300px;
+            height: 100%;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>2024 Swing States Election Forecast</h1>
+    
+    <div class="electoral-college-chart">
+        <h2>Electoral College Projection</h2>
+        <div class="chart-container">
+            <div class="dem-votes" style="width: 53.2%;">287</div>
+            <div class="rep-votes" style="width: 46.8%;">251</div>
+        </div>
+        <div class="probabilities">
+            <div class="probability">
+                <div class="probability-value dem">4 in 5</div>
+                <div class="probability-label">Harris Win Probability</div>
+            </div>
+            <div class="probability">
+                <div class="probability-value rep">1 in 5</div>
+                <div class="probability-label">Trump Win Probability</div>
+            </div>
+            <div class="probability">
+                <div class="probability-value">6 in 1000</div>
+                <div class="probability-label">Tie Probability</div>
+            </div>
+        </div>
+        <div class="error-margin">Average Electoral Votes: Harris 287.24, Trump 250.76</div>
+
+        <div class="popular-vote">
+            <h3>Projected Popular Vote</h3>
+            <div class="popular-vote-chart">
+                <div class="dem-popular" style="width: 51%;">51%</div>
+                <div class="rep-popular" style="width: 46%;">46%</div>
+                <div class="other-popular" style="width: 3%;">3%</div>
+            </div>
+            <div class="error-margin">Harris: 51% | Trump: 47% | Other: 2%</div>
+        </div>
+    </div>
+
+    <div class="charts-row">
+        <div class="chart-wrapper chart-wrapper-small">
+            <h2>Win Probability Over Time</h2>
+            <canvas id="winProbabilityChart"></canvas>
+        </div>
+
+        <div class="chart-wrapper chart-wrapper-small">
+            <h2>Popular Vote Percentage Over Time</h2>
+            <canvas id="popularVoteChart"></canvas>
+        </div>
+
+        <div class="chart-wrapper chart-wrapper-small">
+            <h2>Electoral Vote Projection Over Time</h2>
+            <canvas id="evProjectionChart"></canvas>
+        </div>
+    </div>
+
+    <div class="states-container">
+        <div class="state-forecast">
+            <div class="header">
+                <div class="state">Pennsylvania</div>
+                <div class="status lean-d">Lean D</div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidate</th>
+                        <th class="chance">Chance of Winning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kamala Harris (D)</td>
+                        <td class="chance dem">8 in 10</td>
+                    </tr>
+                    <tr>
+                        <td>Donald Trump (R)</td>
+                        <td class="chance rep">2 in 10</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="forecast-label">Forecasted Vote Share</div>
+            <div class="chart-container">
+                <div class="chart-dot other-dot" style="left: 2%; top: 20px;" title="Other: 2%"></div>
+                <div class="chart-label other" style="left: 8%; top: 20px;">2%</div>
+                <div class="chart-dot dem-dot" style="left: 49%; top: 38px;" title="Kamala Harris (D): 49%"></div>
+                <div class="chart-label dem" style="left: 55%; top: 38px;">49%</div>
+                <div class="chart-dot rep-dot" style="left: 47%; top: 8px;" title="Donald Trump (R): 47%"></div>
+                <div class="chart-label rep" style="left: 53%; top: 8px;">47%</div>
+            </div>
+            <div class="x-axis">
+                <span>0%</span>
+                <span>20%</span>
+                <span>40%</span>
+                <span>60%</span>
+                <span>80%</span>
+                <span>100%</span>
+            </div>
+            <div class="error-margin">Error margin: ± 1 percentage point</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const timeLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
+        
+        const winProbabilityData = {
+            labels: timeLabels,
+            datasets: [
+                {
+                    label: 'Kamala Harris',
+                    data: [75, 78, 80, 82, 81],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    fill: false, 
+                },
+                {
+                    label: 'Donald Trump',
+                    data: [25, 22, 20, 18, 19],
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                    fill: false,
+                }
+            ]
+        };
+        
+        const popularVoteData = {
+            labels: timeLabels,
+            datasets: [
+                {
+                    label: 'Kamala Harris',
+                    data: [50, 51, 52, 53, 51],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    fill: false,
+                },
+                {
+                    label: 'Donald Trump',
+                    data: [48, 47, 46, 45, 47],
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                    fill: false,
+                }
+            ]
+        };
+        
+        const evProjectionData = {
+            labels: timeLabels,
+            datasets: [
+                {
+                    label: 'Kamala Harris',
+                    data: [270, 275, 280, 285, 287],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    fill: false,
+                },
+                {
+                    label: 'Donald Trump',
+                    data: [260, 255, 250, 245, 251],
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                    fill: false,
+                }
+            ]
+        };
+
+        const winProbabilityCtx = document.getElementById('winProbabilityChart').getContext('2d');
+        const popularVoteCtx = document.getElementById('popularVoteChart').getContext('2d');
+        const evProjectionCtx = document.getElementById('evProjectionChart').getContext('2d');
+
+        new Chart(winProbabilityCtx, {
+            type: 'line',
+            data: winProbabilityData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    tooltip: { mode: 'index' }
+                },
+                scales: {
+                    x: { beginAtZero: true },
+                    y: { beginAtZero: true, suggestedMin: 0, suggestedMax: 100 }
+                }
+            }
+        });
+
+        new Chart(popularVoteCtx, {
+            type: 'line',
+            data: popularVoteData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    tooltip: { mode: 'index' }
+                },
+                scales: {
+                    x: { beginAtZero: true },
+                    y: { beginAtZero: false, suggestedMin: 45, suggestedMax: 55 }
+                }
+            } 
+        });
+
+        new Chart(evProjectionCtx, {
+            type: 'line',
+            data: evProjectionData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    tooltip: { mode: 'index' }
+                },
+                scales: {
+                    x: { beginAtZero: true },
+                    y: { beginAtZero: false, suggestedMin: 240, suggestedMax: 300 }
+                }
+            }
+        }); 
+    </script>
+</body>
+</html>
+
+
