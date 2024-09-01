@@ -156,7 +156,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 6px;
     }
 
     .state {
@@ -261,14 +261,24 @@
     background-color: var(--color-card-bg);
     border-radius: 10px;
     box-shadow: 0 4px 8px var(--color-card-shadow);
-    padding: 20px;
+    padding: 5px;
     position: relative;
     height: 500px; /* Adjusted height */
 }
 
+.chart-wrapper h2 {
+    margin-top: 10px; /* Adjust this value to reduce or increase space above the title */
+    margin-bottom: 10px; /* Adjust this value to reduce or increase space below the title */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px; /* Adjust font size if needed */
+    color: var(--color-primary);
+    text-align: center; /* Ensure the title is centered */
+}
+
+
 .charts-row {
     display: flex;
-    gap: 20px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
@@ -335,15 +345,6 @@ canvas {
         <canvas id="evProjectionChart"></canvas>
     </div>
 </div>
-
-
-
-
-
-
-	
-
-
 
 	
 <div class="states-container">
@@ -827,7 +828,7 @@ canvas {
         options: {
             responsive: true,
             plugins: {
-                legend: { display: true },
+                legend: { display: false },
                 tooltip: { mode: 'index' }
             },
             scales: {
@@ -843,7 +844,7 @@ canvas {
         options: {
             responsive: true,
             plugins: {
-                legend: { display: true },
+                legend: { display: false },
                 tooltip: { mode: 'index' }
             },
             scales: {
@@ -859,7 +860,7 @@ canvas {
         options: {
             responsive: true,
             plugins: {
-                legend: { display: true },
+                legend: { display: false },
                 tooltip: { mode: 'index' }
             },
             scales: {
