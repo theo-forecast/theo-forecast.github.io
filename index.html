@@ -177,29 +177,51 @@
     .toss-up { background-color: #f39c12; }
     .lean-d { background-color: #3498db; }
     .lean-r { background-color: #e74c3c; }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
+   
+	
+/* Make tables responsive */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 14px;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    display: block; /* Allow table to be a block element */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+th, td {
+    padding: 8px 10px;
+    text-align: left;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+th {
+    background-color: #ecf0f1;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 2px solid #bdc3c7;
+}
+
+td {
+    border-bottom: 1px solid #ecf0f1;
+    font-weight: 500;
+}
+
+/* Adjust for small screens */
+@media (max-width: 768px) {
     th, td {
-        padding: 8px 10px;
-        text-align: left;
+        font-size: 12px; /* Adjust font size */
+        padding: 6px 8px; /* Adjust padding */
     }
-    th {
-        background-color: #ecf0f1;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 12px;
-        color: #7f8c8d;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        border-bottom: 2px solid #bdc3c7;
+    table {
+        font-size: 12px; /* Adjust table font size */
     }
-    td {
-        border-bottom: 1px solid #ecf0f1;
-        font-weight: 500;
-    }
+}
+
     .chance {
         text-align: right;
         font-weight: 700;
