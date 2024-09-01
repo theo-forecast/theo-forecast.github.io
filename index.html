@@ -97,8 +97,18 @@
         font-weight: bold;
         margin-bottom: 5px;
     }
+	
+	.probability .probability-value.tied {
+    font-size: 18px; /* Adjust this value to make the text smaller */
+    font-weight: 500; /* Optional: Adjust font weight if needed */
+}
 
-    .probability-label {
+.probability .probability-label.tied {
+    font-size: 12px; /* Adjust this value to make the label text smaller */
+    color: var(--color-winprob);
+}	
+	
+	.probability-label {
         font-size: 14px;
         color: var(--color-winprob);
         font-weight: bold;
@@ -311,10 +321,11 @@ canvas {
             <div class="probability-label">Harris Win Probability</div>
         </div>
 
-        <div class="probability">
-            <div class="probability-value">6 in 1000</div>
-            <div class="probability-label">Tie Probability</div>
-        </div>
+<div class="probability">
+    <div class="probability-value tied">6 in 1000</div>
+    <div class="probability-label tied">Tie Probability</div>
+</div>
+
     </div>
     <div class="error-margin">Average Electoral Votes: Harris 294.3, Trump 244.7</div>
 
