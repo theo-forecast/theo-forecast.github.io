@@ -291,17 +291,34 @@
 }
 
 
+/* Default styles for charts row */
 .charts-row {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
 }
 
+/* Styles for individual chart wrappers */
 .chart-wrapper-small {
     flex: 1 1 calc(33.333% - 20px); /* Adjust width to account for gap */
     height: 100%;
     box-sizing: border-box; /* Ensure padding and border are included in width */
 }
+
+/* Styles for mobile screens */
+@media (max-width: 768px) {
+    .charts-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* Adjust the gap between charts if needed */
+    }
+
+    .chart-wrapper-small {
+        width: 100%; /* Full width on mobile */
+        height: auto; /* Auto height to maintain aspect ratio */
+    }
+}
+
 
 canvas {
     width: 100% !important;
