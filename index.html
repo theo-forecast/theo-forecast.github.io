@@ -375,8 +375,8 @@ canvas {
 <div class="electoral-college-chart">
     <h2>2024 Presidential Election Projection by Theo</h2>
     <div class="chart-container">
-        <div class="dem-votes" style="width: 55%;">294</div>
-        <div class="rep-votes" style="width: 45%;">244</div>
+        <div class="dem-votes" style="width: 54%;">291</div>
+        <div class="rep-votes" style="width: 46%;">247</div>
     </div>
     <div class="probabilities">
               
@@ -392,14 +392,14 @@ canvas {
 	
 
     </div>
-    <div class="error-margin">Tie Probability: 6 in 1000</div>
+    <div class="error-margin">Tie Probability: 8 in 1000</div>
 
     <div class="popular-vote">
         <h3>Projected Popular Vote</h3>
         <div class="popular-vote-chart">
-            <div class="dem-popular" style="width: 50.7%;">50.7%</div>
-            <div class="rep-popular" style="width: 46.3%;">46.3%</div>
-            <div class="other-popular" style="width: 2.9%;">2.9%</div>
+            <div class="dem-popular" style="width: 50.4%;">50.4%</div>
+            <div class="rep-popular" style="width: 46.5%;">46.5%</div>
+            <div class="other-popular" style="width: 3.1%;">3.1%</div>
         </div>
     </div>
 </div>
@@ -2789,21 +2789,21 @@ canvas {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const timeLabels = ['July 22', 'July 29', 'Aug 5', 'Aug 12', 'Aug 19', 'Aug 26', 'Sept 2', 'Sept 9'];
+    const timeLabels = ['July 22', 'July 29', 'Aug 5', 'Aug 12', 'Aug 19', 'Aug 26', 'Sept 2', 'Sept 9', 'Sept 16'];
     
     const winProbabilityData = {
         labels: timeLabels,
         datasets: [
             {
                 label: 'Kamala Harris',
-                data: [54, 67, 71, 74, 78, 82, 83],
+                data: [54, 67, 71, 74, 78, 82, 83, 80],
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
                 fill: false, 
             },
             {
                 label: 'Donald Trump',
-                data: [46, 33, 29, 26, 22, 18, 17],
+                data: [46, 33, 29, 26, 22, 18, 17, 20],
                 borderColor: '#e74c3c',
                 backgroundColor: 'rgba(231, 76, 60, 0.2)',
                 fill: false,
@@ -2816,14 +2816,14 @@ canvas {
         datasets: [
             {
                 label: 'Kamala Harris',
-                data: [45, 44, 48, 48, 49, 50, 51],
+                data: [45, 44, 48, 48, 49, 50, 50.7, 50.4],
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
                 fill: false,
             },
             {
                 label: 'Donald Trump',
-                data: [44, 43, 46, 46, 45, 46, 45],
+                data: [44, 43, 46, 46, 45, 46, 45.9, 46.5],
                 borderColor: '#e74c3c',
                 backgroundColor: 'rgba(231, 76, 60, 0.2)',
                 fill: false,
@@ -2836,14 +2836,14 @@ canvas {
         datasets: [
             {
                 label: 'Kamala Harris',
-                data: [272, 276, 278, 281, 287, 293, 294],
+                data: [272, 276, 278, 281, 287, 293, 294, 291],
                 borderColor: '#3498db',
                 backgroundColor: 'rgba(52, 152, 219, 0.2)',
                 fill: false,
             },
             {
                 label: 'Donald Trump',
-                data: [266, 262, 260, 257, 251, 245, 244],
+                data: [266, 262, 260, 257, 251, 245, 244, 247],
                 borderColor: '#e74c3c',
                 backgroundColor: 'rgba(231, 76, 60, 0.2)',
                 fill: false,
