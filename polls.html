@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polls</title>
+    <style>
+    /* Base styles and resets */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Roboto', 'Arial', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f0f3f5;
+        padding-bottom: 50px;
+        text-align: center; /* Center text and elements */
+    }
+
+    h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: #34495e;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 16px;
+        color: #7f8c8d;
+        margin-bottom: 40px;
+    }
+
+    /* Button styles */
+    button {
+        background-color: #3498db; /* Blue background */
+        color: #fff; /* White text */
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 0 10px; /* Space between buttons */
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background-color: #2980b9; /* Darker blue on hover */
+        transform: scale(1.05); /* Slightly enlarge the button on hover */
+    }
+
+    /* Container styles */
+    .button-container {
+        display: flex;
+        justify-content: center; /* Center buttons horizontally */
+        margin-bottom: 40px; /* Space below the buttons */
+    }
+
+    .states-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        padding: 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* State forecast card styles */
+    .state-forecast {
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        width: calc(33.33% - 16px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .state-forecast:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Header styles */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .state {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 24px;
+        font-size: 15px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #ecf0f1;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-bottom: 2px solid #bdc3c7;
+    }
+
+    td {
+        border-bottom: 1px solid #ecf0f1;
+        font-weight: 500;
+    }
+
+    .chance {
+        text-align: right;
+        font-weight: 700;
+    }
+
+    .rep { color: #e74c3c; }
+    .dem { color: #3498db; }
+
+    /* Chart container styles */
+    .chart-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        margin-top: 30px;
+        background-color: #fdfdfd;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .chart-container canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 1024px) {
+        .state-forecast {
+            width: calc(50% - 12px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .states-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .state-forecast {
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .status {
+            margin-top: 8px;
+        }
+    }
+
+    /* Accessibility and print styles */
+    @media (prefers-reduced-motion: reduce) {
+        .state-forecast {
+            transition: none;
+        }
+    }
+
+    @media print {
+        .state-forecast {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            box-shadow: none;
+            border: 1px solid #ddd;
+        }
+    }
+    </style>
+</head>
+<body>
+
+    <div class="button-container">
+        <!-- Button to open the current page (Model) -->
+        <button onclick="openPage('index.html')">Model</button>
+
+        <!-- Button to open the Polls page -->
+        <button onclick="openPage('polls.html')">Polls</button>
+    </div>
+
+    <h1>High Quality Polling Averages</h1>
+    <p>This page provides the polling averages of a certain time period by high quality pollsters.</p>
+    <ul style="text-align:center; color:#7f8c8d;">
+        <li>June Debate - June 27</li>
+        <li>Biden Dropped Out - July 22</li>
+        <li>Harris v Trump Debate - Sept 10</li>
+    </ul>
+
+<div class="states-container">
+    <!-- National Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">National Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-national"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>41.04%</td><td>43.13%</td></tr>
+                <tr><td>Feb</td><td>42.16%</td><td>44.25%</td></tr>
+                <tr><td>March</td><td>43.29%</td><td>43.84%</td></tr>
+                <tr><td>April</td><td>43.20%</td><td>43.26%</td></tr>
+                <tr><td>May</td><td>42.53%</td><td>43.20%</td></tr>
+                <tr><td>June 1 - 27</td><td>42.80%</td><td>43.70%</td></tr>
+                <tr><td>June 27 - July 22</td><td>41.73%</td><td>44.30%</td></tr>
+                <tr><td>July 22 - Aug 5</td><td>47.03%</td><td>44.75%</td></tr>
+                <tr><td>Aug 5 - Aug 19</td><td>47.74%</td><td>44.78%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>48.03%</td><td>44.21%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PA Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">PA Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-pa"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>43.63%</td><td>42.75%</td></tr>
+                <tr><td>Feb</td><td>41.80%</td><td>45.20%</td></tr>
+                <tr><td>March</td><td>43.25%</td><td>44.92%</td></tr>
+                <tr><td>April</td><td>43.33%</td><td>45.67%</td></tr>
+                <tr><td>May</td><td>42.25%</td><td>44.42%</td></tr>
+                <tr><td>June 1 - 27</td><td>45.25%</td><td>46.75%</td></tr>
+                <tr><td>June 27 - July 22</td><td>43.16%</td><td>46.42%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>47.15%</td><td>45.62%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>48.09%</td><td>46.45%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- GA Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">GA Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-ga"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>39.00%</td><td>46.80%</td></tr>
+                <tr><td>Feb</td><td>39.75%</td><td>46.75%</td></tr>
+                <tr><td>March</td><td>42.67%</td><td>48.33%</td></tr>
+                <tr><td>April</td><td>42.33%</td><td>48.17%</td></tr>
+                <tr><td>May</td><td>38.20%</td><td>45.00%</td></tr>
+                <tr><td>June 1 - 27</td><td>40.80%</td><td>46.40%</td></tr>
+                <tr><td>June 27 - July 22</td><td>41.67%</td><td>46.11%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>46.80%</td><td>47.48%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>48.55%</td><td>47.36%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- NC Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">NC Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-nc"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>36.67%</td><td>46.00%</td></tr>
+                <tr><td>Feb</td><td>39.25%</td><td>46.25%</td></tr>
+                <tr><td>March</td><td>42.50%</td><td>48.40%</td></tr>
+                <tr><td>April</td><td>41.00%</td><td>46.56%</td></tr>
+                <tr><td>May</td><td>39.57%</td><td>46.29%</td></tr>
+                <tr><td>June 1 - 27</td><td>39.40%</td><td>46.80%</td></tr>
+                <tr><td>June 27 - July 22</td><td>41.33%</td><td>45.50%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>46.42%</td><td>45.67%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>47.91%</td><td>48.00%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- AZ Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">AZ Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-az"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>39.50%</td><td>45.00%</td></tr>
+                <tr><td>Feb</td><td>39.75%</td><td>45.75%</td></tr>
+                <tr><td>March</td><td>41.20%</td><td>46.00%</td></tr>
+                <tr><td>April</td><td>41.33%</td><td>45.56%</td></tr>
+                <tr><td>May</td><td>40.35%</td><td>44.94%</td></tr>
+                <tr><td>June 1 - 27</td><td>41.13%</td><td>47.13%</td></tr>
+                <tr><td>June 27 - July 22</td><td>41.11%</td><td>46.56%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>46.06%</td><td>45.69%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>48.00%</td><td>48.33%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- NV Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">NV Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-nv"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>38.75%</td><td>45.00%</td></tr>
+                <tr><td>Feb</td><td>37.67%</td><td>44.50%</td></tr>
+                <tr><td>March</td><td>41.83%</td><td>46.00%</td></tr>
+                <tr><td>April</td><td>41.50%</td><td>48.00%</td></tr>
+                <tr><td>May</td><td>38.25%</td><td>46.67%</td></tr>
+                <tr><td>June 1 - 27</td><td>42.67%</td><td>46.50%</td></tr>
+                <tr><td>June 27 - July 22</td><td>40.44%</td><td>46.67%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>44.56%</td><td>46.22%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>48.56%</td><td>46.67%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- MI Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">MI Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-mi"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>39.50%</td><td>45.00%</td></tr>
+                <tr><td>Feb</td><td>41.00%</td><td>44.22%</td></tr>
+                <tr><td>March</td><td>42.29%</td><td>45.43%</td></tr>
+                <tr><td>April</td><td>42.33%</td><td>44.33%</td></tr>
+                <tr><td>May</td><td>44.20%</td><td>44.30%</td></tr>
+                <tr><td>June 1 - 27</td><td>44.50%</td><td>46.67%</td></tr>
+                <tr><td>June 27 - July 22</td><td>41.92%</td><td>44.00%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>47.22%</td><td>44.89%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>47.14%</td><td>45.57%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- WI Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">WI Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-wi"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>43.43%</td><td>45.43%</td></tr>
+                <tr><td>Feb</td><td>39.00%</td><td>42.80%</td></tr>
+                <tr><td>March</td><td>44.17%</td><td>45.67%</td></tr>
+                <tr><td>April</td><td>43.67%</td><td>46.07%</td></tr>
+                <tr><td>May</td><td>42.29%</td><td>41.00%</td></tr>
+                <tr><td>June 1 - 27</td><td>45.67%</td><td>46.83%</td></tr>
+                <tr><td>June 27 - July 22</td><td>42.92%</td><td>45.23%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>47.85%</td><td>45.38%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>50.38%</td><td>44.63%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TX Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">TX Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-tx"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Jan</td><td>38.00%</td><td>47.50%</td></tr>
+                <tr><td>Feb</td><td>39.00%</td><td>45.00%</td></tr>
+                <tr><td>March</td><td>41.00%</td><td>51.00%</td></tr>
+                <tr><td>April</td><td>38.75%</td><td>47.50%</td></tr>
+                <tr><td>June 1 - 27</td><td>39.29%</td><td>46.43%</td></tr>
+                <tr><td>June 27 - July 22</td><td>39.00%</td><td>49.00%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>45.00%</td><td>50.00%</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>45.33%</td><td>49.67%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FL Poll Average -->
+    <div class="state-forecast">
+        <div class="header">
+            <div class="state">FL Polling Average</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart-fl"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Harris</th>
+                    <th>Trump</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>March</td><td>42.00%</td><td>48.00%</td></tr>
+                <tr><td>April</td><td>40.33%</td><td>50.50%</td></tr>
+                <tr><td>May</td><td>40.50%</td><td>51.50%</td></tr>
+                <tr><td>June 1 - 27</td><td>41.33%</td><td>46.67%</td></tr>
+                <tr><td>June 27 - July 22</td><td>39.33%</td><td>47.67%</td></tr>
+                <tr><td>July 22 - Aug 19</td><td>44.33%</td><td>48.17</td></tr>
+                <tr><td>Aug 19 - Sept 10</td><td>48.00%</td><td>51.00%</td></tr>
+                <tr><td>Sept 10 - Oct 1</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 1 - Oct 22</td><td>-</td><td>-</td></tr>
+                <tr><td>Oct 22 - Nov 5</td><td>-</td><td>-</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const chartOptions = {
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false,
+            position: 'top',
+        },
+        tooltip: {
+            callbacks: {
+                label: function(tooltipItem) {
+                    return `${tooltipItem.dataset.label}: ${tooltipItem.raw}%`;
+                }
+            }
+        }
+    },
+    scales: {
+        x: {
+            type: 'category',
+            labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 5', 'Aug 5 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        },
+        y: {
+            beginAtZero: false,
+            ticks: {
+                callback: function(value) {
+                    return value + '%';
+                }
+            }
+        }
+    }
+};
+
+    const dataNational = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 5', 'Aug 5 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [41.04, 42.16, 43.29, 43.20, 42.53, 42.80, 41.73, 47.03, 47.74, 48.03, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [43.13, 44.25, 43.84, 43.26, 43.20, 43.70, 44.30, 44.75, 44.78, 44.21, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const chartPa = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [43.63, 41.80, 43.25, 43.33, 42.25, 45.25, 43.16, 47.15, 48.09, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [42.75, 45.20, 44.92, 45.67, 44.42, 46.75, 46.42, 45.62, 46.45, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    
+    const chartGa = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [39.00, 39.75, 42.67, 42.33, 38.20, 40.80, 41.67, 46.80, 48.55, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [46.80, 46.75, 48.33, 48.17, 45.00, 46.40, 46.11, 47.48, 47.36, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+    
+    
+    const chartNc = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [36.67, 39.25, 42.50, 41.00, 39.57, 39.40, 41.33, 46.42, 47.91, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [46.00, 46.25, 48.40, 46.56, 46.29, 46.80, 45.50, 45.67, 48.00, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const chartAz = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [39.50, 39.75, 41.20, 41.33, 40.35, 41.13, 41.11, 46.06, 48.00, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [45.00, 45.75, 46.00, 45.56, 44.94, 47.13, 46.56, 45.69, 48.33, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const chartNv = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [38.75, 37.67, 41.83, 41.50, 38.25, 42.67, 40.44, 44.56, 48.56, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [45.00, 44.50, 46.00, 48.00, 46.67, 46.50, 46.67, 46.22, 46.67, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const chartMi = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [39.50, 41.00, 42.29, 42.33, 44.20, 44.50, 41.92, 47.22, 47.14, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [45.00, 44.22, 45.43, 44.33, 44.30, 46.67, 44.00, 44.89, 45.57, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const chartWi = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [43.43, 39.00, 44.17, 43.67, 42.29, 45.67, 42.92, 47.85, 50.38, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [45.43, 42.80, 45.67, 46.07, 41.00, 46.83, 45.23, 45.38, 44.63, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const chartTx = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [38.00, 39.00, 41.00, 38.75, null, 39.29, 39.00, 45.00, 45.33, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [47.50, 45.00, 51.00, 47.50, null, 46.43, 49.00, 50.00, 49.67, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const chartFl = {
+        labels: ['Jan', 'Feb', 'March', 'April', 'May', 'June 1 - 27', 'June 27 - July 22', 'July 22 - Aug 19', 'Aug 19 - Sept 10', 'Sept 10 - Oct 1', 'Oct 1 - Oct 22', 'Oct 22 - Nov 5'],
+        datasets: [
+            {
+                label: 'Harris',
+                data: [null, null, 42.00, 40.33, 40.50, 41.33, 39.33, 44.33, 48.00, null, null, null],
+                borderColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: 'Trump',
+                data: [null, null, 48.00, 50.50, 51.50, 46.67, 47.67, 48.17, 51.00, null, null, null],
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const ctxNational = document.getElementById('chart-national').getContext('2d');
+    const ctxPa = document.getElementById('chart-pa').getContext('2d');
+    const ctxGa = document.getElementById('chart-ga').getContext('2d');
+    const ctxNc = document.getElementById('chart-nc').getContext('2d');
+    const ctxAz = document.getElementById('chart-az').getContext('2d');
+    const ctxNv = document.getElementById('chart-nv').getContext('2d');
+    const ctxMi = document.getElementById('chart-mi').getContext('2d');
+    const ctxWi = document.getElementById('chart-wi').getContext('2d');
+    const ctxTx = document.getElementById('chart-tx').getContext('2d');
+    const ctxFl = document.getElementById('chart-fl').getContext('2d');
+
+    new Chart(ctxNational, {
+        type: 'line',
+        data: dataNational,
+        options: chartOptions
+    });
+
+    new Chart(ctxPa, {
+        type: 'line',
+        data: chartPa,
+        options: chartOptions
+    });
+
+    
+    new Chart(ctxGa, {
+        type: 'line',
+        data: chartGa,
+        options: chartOptions
+    });
+    
+    new Chart(ctxNc, {
+        type: 'line',
+        data: chartNc,
+        options: chartOptions
+    });
+
+    new Chart(ctxAz, {
+        type: 'line',
+        data: chartAz,
+        options: chartOptions
+    });
+
+    new Chart(ctxNv, {
+        type: 'line',
+        data: chartNv,
+        options: chartOptions
+    });
+
+    new Chart(ctxMi, {
+        type: 'line',
+        data: chartMi,
+        options: chartOptions
+    });
+
+    new Chart(ctxWi, {
+        type: 'line',
+        data: chartWi,
+        options: chartOptions
+    });
+
+    new Chart(ctxTx, {
+        type: 'line',
+        data: chartTx,
+        options: chartOptions
+    });
+
+    new Chart(ctxFl, {
+        type: 'line',
+        data: chartFl,
+        options: chartOptions
+    });
+    
+            function openPage(page) {
+            window.location.href = page;
+        }
+    
+</script>
+</body>
+</html>
