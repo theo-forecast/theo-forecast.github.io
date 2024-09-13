@@ -269,16 +269,22 @@
             }
         }
 
+        function formatValue(value) {
+            return value !== undefined && value !== null
+                ? (value * 100).toFixed(2) + '%'
+                : '-';
+        }
+
         function updateTable(dates, harris, trump) {
             const tableBody = document.querySelector('#pollsTable tbody');
             tableBody.innerHTML = '';
             dates.forEach((date, index) => {
                 const row = `<tr>
                     <td>${date}</td>
-                    <td>${harris[index] || '-'}</td>
-                    <td>${trump[index] || '-'}</td>
+                    <td>${formatValue(harris[index])}</td>
+                    <td>${formatValue(trump[index])}</td>
                 </tr>`;
-                tableBody.insertAdjacentHTML('beforeend', row);
+                tableBody.innerHTML += row;
             });
         }
 
@@ -291,7 +297,7 @@
                     datasets: [
                         {
                             label: 'Harris',
-                            data: harris,
+                            data: harris.map(value => value * 100),
                             borderColor: '#3498db',
                             backgroundColor: 'rgba(52, 152, 219, 0.2)',
                             borderWidth: 2,
@@ -299,7 +305,7 @@
                         },
                         {
                             label: 'Trump',
-                            data: trump,
+                            data: trump.map(value => value * 100),
                             borderColor: '#e74c3c',
                             backgroundColor: 'rgba(231, 76, 60, 0.2)',
                             borderWidth: 2,
@@ -340,7 +346,7 @@
             });
         }
 
-        window.addEventListener('DOMContentLoaded', (event) => {
+        window.addEventListener('DOMContentLoaded', () => {
             fetchExcelData();
         });
     </script>
