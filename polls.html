@@ -5,7 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polls</title>
     <style>
-        /* ... (previous CSS styles remain the same) ... */
+        body {
+        font-family: 'Roboto', 'Arial', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f0f3f5;
+        padding-bottom: 50px;
+        text-align: center; /* Center text and elements */
+    }
+
+    h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: #34495e;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 16px;
+        color: #7f8c8d;
+        margin-bottom: 40px;
+    }
+
+    /* Button styles */
+    button {
+        background-color: #3498db; /* Blue background */
+        color: #fff; /* White text */
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 0 10px; /* Space between buttons */
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background-color: #2980b9; /* Darker blue on hover */
+        transform: scale(1.05); /* Slightly enlarge the button on hover */
+    }
+
+    /* Container styles */
+    .button-container {
+        display: flex;
+        justify-content: center; /* Center buttons horizontally */
+        margin-bottom: 40px; /* Space below the buttons */
+    }
+
+    .states-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        padding: 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* State forecast card styles */
+    .state-forecast {
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        width: calc(33.33% - 16px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .state-forecast:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Header styles */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .state {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    /* Table styles */
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 24px;
+        font-size: 15px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #ecf0f1;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-bottom: 2px solid #bdc3c7;
+    }
+
+    td {
+        border-bottom: 1px solid #ecf0f1;
+        font-weight: 500;
+    }
+
+    .chance {
+        text-align: right;
+        font-weight: 700;
+    }
+
+    .rep { color: #e74c3c; }
+    .dem { color: #3498db; }
+
+    /* Chart container styles */
+    .chart-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        margin-top: 30px;
+        background-color: #fdfdfd;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .chart-container canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 1024px) {
+        .state-forecast {
+            width: calc(50% - 12px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .states-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .state-forecast {
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .status {
+            margin-top: 8px;
+        }
+    }
+
+    /* Accessibility and print styles */
+    @media (prefers-reduced-motion: reduce) {
+        .state-forecast {
+            transition: none;
+        }
+    }
+
+    @media print {
+        .state-forecast {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            box-shadow: none;
+            border: 1px solid #ddd;
+        }
+    }
+</style>
     </style>
 </head>
 <body>
