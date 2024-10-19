@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Theo 2024 Forecast</title>
+	
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;700&display=swap');
+
+:root {
+        --color-background: #f4f4f9;
+        --color-text: #333;
+        --color-primary: #2c3e50;
+        --color-secondary: #7f8c8d;
+        --color-dem: #3498db;
+        --color-rep: #e74c3c;
+        --color-tossup: #f39c12;
+        --color-card-bg: #fff;
+        --color-card-shadow: rgba(0, 0, 0, 0.1);
+        --color-winprob: #212f3d
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        max-width: 80%;
+        margin: 0px auto;
+        padding: 10px;
+        background-color: var(--color-background);
+        color: var(--color-text);
+    }
+
+    h1, h2, h3 {
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+        color: var(--color-primary);
+    }
+
+    .electoral-college-chart {
+        background-color: var(--color-card-bg);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px var(--color-card-shadow);
+        padding:15px;
+        margin-bottom: 10px;
+    }
+
+    .chart-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #ecf0f1;
+        border-radius: 100px;
+        overflow: hidden;
+        margin-bottom: 20px; 
+    }
+
+    .dem-votes, .rep-votes {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .dem-votes {
+        background-color: var(--color-dem);
+        border-radius: 20px 0 0 20px;
+    }
+
+    .rep-votes {
+        background-color: var(--color-rep);
+        border-radius: 0 20px 20px 0;
+    }
+
+    .probabilities {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .probability {
+        text-align: center;
+        flex: 1;
+    }
+
+    .probability-value {
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+	
+	.probability-label {
+        font-size: 14px;
+        color: var(--color-winprob);
+        font-weight: bold;
+    }
+	
+    .popular-vote {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .popular-vote-chart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        background-color: #ecf0f1;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+    .dem-popular, .rep-popular, .other-popular {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .dem-popular { background-color: var(--color-dem); }
+    .rep-popular { background-color: var(--color-rep); }
+    .other-popular { background-color: var(--color-secondary); }
+
+/* Default styles for desktop and larger screens */
+.states-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Default state-forecast styles */
+.state-forecast {
+    background-color: var(--color-card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--color-card-shadow);
+    padding: 20px;
+    width: calc(33.33% - 20px); /* Adjust width for three items in a row */
+    box-sizing: border-box;
+    position: relative;
+    margin-top: 16px;
+}
+
+/* Styles for mobile screens */
+@media (max-width: 768px) {
+    .states-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .state-forecast {
+        width: 100%; /* Full width on mobile */
+        margin-top: 16px;
+    }
+}
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+    .state {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #fff;
+        text-transform: uppercase;
+    }
+    .toss-up { background-color: #f39c12; }
+    .lean-d { background-color: #3498db; }
+    .lean-r { background-color: #e74c3c; }
+    .likely-d { background-color: #e74c3c; }
+    .solid-r { background-color: #e74c3c; }
+    .likely-r { background-color: #e74c3c; }
+    .solid-d { background-color: #3498db; }
+    .solid-rep { background-color: #e74c3c; }
+	.solid-dem { background-color: #3498db; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+    th, td {
+        padding: 8px 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #ecf0f1;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-bottom: 2px solid #bdc3c7;
+    }
+    td {
+        border-bottom: 1px solid #ecf0f1;
+        font-weight: 500;
+    }
+    .chance {
+        text-align: right;
+        font-weight: 700;
+    }
+    .rep { color: #e74c3c; }
+    .dem { color: #3498db; }
+    .ind { color: #eca500; }
+    .forecast-label {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        letter-spacing: 0.05em;
+    }
+    .chart-container {
+        position: relative;
+        height: 55px;
+        margin-top: 10px;
+        background-image: linear-gradient(to right, #ecf0f1 1px, transparent 1px);
+        background-size: 20% 100%;
+        border-radius: 6px;
+    }
+    .chart-dot {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+    .chart-label {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    color: #2c3e50;
+}
+
+/* Media query for mobile devices (max-width: 768px) */
+@media (max-width: 768px) {
+    .chart-label {
+        left: 18px; /* Adjust this value as needed to move it slightly to the right */
+    }
+}
+
+/* Other styles */
+.other-dot { background-color: #95a5a6; }
+.rep-dot { background-color: #e74c3c; }
+.dem-dot { background-color: #3498db; }
+.ind-dot { background-color: #eca500; }
+.x-axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #7f8c8d;
+    margin-top: 10px;
+}
+
+    .error-margin {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 11px;
+        color: #7f8c8d;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+.chart-wrapper {
+    margin-top: 8px;
+    margin-down: 12px;
+    background-color: var(--color-card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--color-card-shadow);
+    padding: 5px;
+    position: relative;
+    height: 500px; /* Adjusted height */
+}
+
+.chart-wrapper h2 {
+    margin-top: 10px; /* Adjust this value to reduce or increase space above the title */
+    margin-bottom: 10px; /* Adjust this value to reduce or increase space below the title */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px; /* Adjust font size if needed */
+    color: var(--color-primary);
+    text-align: center; /* Ensure the title is centered */
+}
+
+
+/* Default styles for charts row */
+.charts-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Styles for individual chart wrappers */
+.chart-wrapper-small {
+    flex: 1 1 calc(33.333% - 20px); /* Adjust width to account for gap */
+    height: 100%;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Styles for mobile screens */
+@media (max-width: 768px) {
+    .charts-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* Adjust the gap between charts if needed */
+    }
+
+    .chart-wrapper-small {
+        width: 100%; /* Full width on mobile */
+        height: auto; /* Auto height to maintain aspect ratio */
+    }
+}
+
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+button {
+    background-color: #3498db; /* Blue background */
+    color: #fff; /* White text */
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px; /* Padding around the button */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 10px; /* Space between buttons */
+    transition: background-color 0.3s, transform 0.2s;
+    min-width: 120px; /* Optional: Minimum width for buttons */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+}
+
+    button:hover {
+        background-color: #2980b9; /* Darker blue on hover */
+        transform: scale(1.05); /* Slightly enlarge the button on hover */
+    }
+
+	    .button-container {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    margin: 15px auto; /* Increased margin above and below the buttons */
+}
+
+</style>
+
+<link rel="icon" href="theo-forecast.github.io/favico.ico" type="image/x-icon">
+	
+    <div class="button-container">
+        <!-- Button to open the current page (Model) -->
+        <button onclick="openPage('index.html')">President Model</button>
+        <!-- Button to open the Polls page -->
+       <!-- <-button onclick="openPage('polls.html')">Polls</button> -->
+	 <!-- Button to open the Polls page -->
+        <button onclick="openPage('senate.html')">Senate Model</button>
+    </div>
+
+<div class="electoral-college-chart">
+    <h2>2024 US Senate Election Projection by Theo</h2>
+    <div class="chart-container">
+        <div class="dem-votes" style="width: 51%;">48.2</div>
+        <div class="rep-votes" style="width: 49%;">51.8</div>
+    </div>
+    <div class="probabilities">
+              
+
+	    
+	    <div class="probability">
+            <div class="probability-value rep">14 in 20</div>
+            <div class="probability-label">R Majority Probability</div>
+        </div>
+        	    <div class="probability">
+            <div class="probability-value tie">5 in 20</div>
+            <div class="probability-label">50-50 Probability</div>
+        </div>
+        	    <div class="probability">
+            <div class="probability-value dem">1 in 20</div>
+            <div class="probability-label">D Majority Probability</div>
+        </div>
+	
+
+    </div>
+    <div class="error-margin">Tie Probability: 7 in 1000</div>
+
+    <div class="popular-vote">
+        <h3>Chance of Majority</h3>
+        <div class="popular-vote-chart">
+            <div class="dem-popular" style="width: 6%;">6.3%</div>
+            <div class="other-popular" style="width: 15.6%;">15.6%</div>
+            <div class="rep-popular" style="width: 78.1%;">78.1%</div>
+        </div>
+            <div class="popular-vote">
+        <h4>After the VP</h4>
+        <div class="popular-vote-chart">
+            <div class="dem-popular" style="width: 17.2%;">17.2%</div>
+            <div class="rep-popular" style="width: 82.8%;">82.8%</div>
+        </div>
+    </div>
+</div>
+</div>
+
+	
+<div class="states-container">
+    
+<!-- Ohio -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Ohio</div>
+        <div class="status toss-up">TOSSUP</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Sherrod Brown (inc) (D)</td>
+                <td class="chance dem">5 in 10</td>
+            </tr>
+            <tr>
+                <td>Bernie Moreno (R)</td>
+                <td class="chance rep">5 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot other-dot" style="left: 0.61%; top: 20px;" title="Other: 0.61%"></div>
+        <div class="chart-label other" style="left: 7.61%; top: 20px;">0.61%</div>
+        
+        <div class="chart-dot dem-dot" style="left: 50.00%; top: 32px;" title="Sherrod Brown (D): 50.00%"></div>
+        <div class="chart-label dem" style="left: 57.00%; top: 32px;">50.01%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 49.39%; top: 8px;" title="Bernie Moreno (R): 49.39%"></div>
+        <div class="chart-label rep" style="left: 56.39%; top: 8px;">49.38%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Nebraska -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Nebraska</div>
+        <div class="status lean-r">LEAN R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dan Osborn (I)</td>
+                <td class="chance ind">3 in 10</td>
+            </tr>
+            <tr>
+                <td>Deb Fischer (inc) (R)</td>
+                <td class="chance rep">7 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot ind-dot" style="left: 48.37%; top: 32px;" title="Kamala Harris (D): 48.37%"></div>
+        <div class="chart-label dem" style="left: 55.37%; top: 32px;">48.37%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 51.63%; top: 8px;" title="Donald Trump (R): 51.63%"></div>
+        <div class="chart-label rep" style="left: 58.63%; top: 8px;">51.63%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Texas -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Texas</div>
+        <div class="status lean-r">LEAN R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Colin Allred (D)</td>
+                <td class="chance dem">3 in 10</td>
+            </tr>
+            <tr>
+                <td>Ted Cruz (inc) (R)</td>
+                <td class="chance rep">7 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 48.30%; top: 32px;" title="Kamala Harris (D): 48.30%"></div>
+        <div class="chart-label dem" style="left: 55.30%; top: 32px;">48.30%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 51.70%; top: 8px;" title="Donald Trump (R): 51.70%"></div>
+        <div class="chart-label rep" style="left: 58.70%; top: 8px;">51.70%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Florida -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Florida</div>
+        <div class="status likely-r">LIKELY R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Debbie M. Powell (D)</td>
+                <td class="chance dem">2 in 10</td>
+            </tr>
+            <tr>
+                <td>Rick Scott (inc) (R)</td>
+                <td class="chance rep">8 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot other-dot" style="left: 0.83%; top: 20px;" title="Other: 0.83%"></div>
+        <div class="chart-label other" style="left: 7.83%; top: 20px;">0.83%</div>
+        
+        <div class="chart-dot dem-dot" style="left: 47.60%; top: 32px;" title="Kamala Harris (D): 47.60%"></div>
+        <div class="chart-label dem" style="left: 56.60%; top: 32px;">47.60%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 51.57%; top: 8px;" title="Donald Trump (R): 51.57%"></div>
+        <div class="chart-label rep" style="left: 58.57%; top: 8px;">51.57%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Wisconsin -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Wisconsin</div>
+        <div class="status lean-d">LIKELY D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tammy Baldwin (inc) (D)</td>
+                <td class="chance dem">8 in 10</td>
+            </tr>
+            <tr>
+                <td>Eric Hovde (R)</td>
+                <td class="chance rep">2 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 52.07%; top: 32px;" title="Kamala Harris (D): 52.07%"></div>
+        <div class="chart-label dem" style="left: 61.07%; top: 32px;">52.07%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 47.93%; top: 8px;" title="Donald Trump (R): 47.93%"></div>
+        <div class="chart-label rep" style="left: 54.93%; top: 8px;">47.93%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Michigan -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Michigan</div>
+        <div class="status lean-d">LIKELY D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Elissa Slotkin (D)</td>
+                <td class="chance dem">8 in 10</td>
+            </tr>
+            <tr>
+                <td>Mike Rogers (R)</td>
+                <td class="chance rep">2 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot other-dot" style="left: 1.04%; top: 20px;" title="Other: 1.04%"></div>
+        <div class="chart-label other" style="left: 8.04%; top: 20px;">1.04%</div>
+        
+        <div class="chart-dot dem-dot" style="left: 51.56%; top: 32px;" title="Kamala Harris (D): 51.56%"></div>
+        <div class="chart-label dem" style="left: 58.56%; top: 32px;">51.56%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 47.40%; top: 8px;" title="Donald Trump (R): 47.40%"></div>
+        <div class="chart-label rep" style="left: 54.40%; top: 8px;">47.40%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Montana -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Montana</div>
+        <div class="status likely-r">LIKELY R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Jon Tester (inc) (D)</td>
+                <td class="chance dem">2 in 10</td>
+            </tr>
+            <tr>
+                <td>Tim Sheehy (R)</td>
+                <td class="chance rep">8 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 47.88%; top: 32px;" title="Kamala Harris (D): 47.88%"></div>
+        <div class="chart-label dem" style="left: 56.88%; top: 32px;">47.88%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 52.12%; top: 8px;" title="Donald Trump (R): 52.12%"></div>
+        <div class="chart-label rep" style="left: 59.12%; top: 8px;">52.12%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Arizona -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Arizona</div>
+        <div class="status lean-d">LIKELY D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ruben Gallego (D)</td>
+                <td class="chance dem">8 in 10</td>
+            </tr>
+            <tr>
+                <td>Kari Lake (R)</td>
+                <td class="chance rep">2 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 52.14%; top: 32px;" title="Kamala Harris (D): 52.14%"></div>
+        <div class="chart-label dem" style="left: 61.14%; top: 32px;">52.14%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 47.86%; top: 8px;" title="Donald Trump (R): 47.86%"></div>
+        <div class="chart-label rep" style="left: 54.86%; top: 8px;">47.86%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Pennsylvania -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Pennsylvania</div>
+        <div class="status lean-d">LIKELY D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bob Casey Jr. (inc) (D)</td>
+                <td class="chance dem">8 in 10</td>
+            </tr>
+            <tr>
+                <td>David McCormick (R)</td>
+                <td class="chance rep">2 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 52.19%; top: 32px;" title="Kamala Harris (D): 52.19%"></div>
+        <div class="chart-label dem" style="left: 61.19%; top: 32px;">52.19%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 47.81%; top: 8px;" title="Donald Trump (R): 47.81%"></div>
+        <div class="chart-label rep" style="left: 54.81%; top: 8px;">47.81%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Nevada -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Nevada</div>
+        <div class="status solid-d">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Jacky Rosen (inc) (D)</td>
+                <td class="chance dem">9 in 10</td>
+            </tr>
+            <tr>
+                <td>Sam Brown (R)</td>
+                <td class="chance rep">1 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 53.47%; top: 32px;" title="Kamala Harris (D): 53.47%"></div>
+        <div class="chart-label dem" style="left: 62.47%; top: 32px;">53.47%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 46.53%; top: 8px;" title="Donald Trump (R): 46.53%"></div>
+        <div class="chart-label rep" style="left: 53.53%; top: 8px;">46.53%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Virginia -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Virginia</div>
+        <div class="status solid-dem">SOLID D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tim Kaine (inc) (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Hung Cao (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 54.54%; top: 32px;" title="Kamala Harris (D): 54.54%"></div>
+        <div class="chart-label dem" style="left: 63.54%; top: 32px;">56.54%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 45.46%; top: 8px;" title="Donald Trump (R): 45.46%"></div>
+        <div class="chart-label rep" style="left: 52.46%; top: 8px;">43.46%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Indiana -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Indiana</div>
+        <div class="status solid-rep">SOLID R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Valerie McCray (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>Jim Banks (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 43.53%; top: 32px;" title="Kamala Harris (D): 43.53%"></div>
+        <div class="chart-label dem" style="left: 52.53%; top: 32px;">43.53%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 56.47%; top: 8px;" title="Donald Trump (R): 56.47%"></div>
+        <div class="chart-label rep" style="left: 63.47%; top: 8px;">56.47%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Missouri -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Missouri</div>
+        <div class="status solid-rep">SOLID R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Lucas Kunce (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>Josh Hawley (inc) (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 43.19%; top: 32px;" title="Kamala Harris (D): 43.19%"></div>
+        <div class="chart-label dem" style="left: 52.19%; top: 32px;">43.19%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 56.81%; top: 8px;" title="Donald Trump (R): 56.81%"></div>
+        <div class="chart-label rep" style="left: 63.81%; top: 8px;">56.81%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Connecticut -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Connecticut</div>
+        <div class="status solid-dem">SOLID D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Chris Murphy (inc) (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Matthew Corey (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 58.20%; top: 32px;" title="Kamala Harris (D): 58.20%"></div>
+        <div class="chart-label dem" style="left: 67.20%; top: 32px;">58.20%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 41.80%; top: 8px;" title="Donald Trump (R): 41.80%"></div>
+        <div class="chart-label rep" style="left: 48.80%; top: 8px;">41.80%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Minnesota -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Minnesota</div>
+        <div class="status solid-dem">SOLID D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Amy Klobuchar (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Royce White (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 58.34%; top: 32px;" title="Kamala Harris (D): 58.34%"></div>
+        <div class="chart-label dem" style="left: 67.34%; top: 32px;">58.34%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 41.66%; top: 8px;" title="Donald Trump (R): 41.66%"></div>
+        <div class="chart-label rep" style="left: 48.66%; top: 8px;">41.66%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- New Jersey -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">New Jersey</div>
+        <div class="status solid-dem">SOLID D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Andy Kim (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Curtis Bashaw (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 58.36%; top: 32px;" title="Kamala Harris (D): 58.36%"></div>
+        <div class="chart-label dem" style="left: 67.36%; top: 32px;">58.36%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 41.64%; top: 8px;" title="Donald Trump (R): 41.64%"></div>
+        <div class="chart-label rep" style="left: 48.64%; top: 8px;">41.64%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Washington -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Washington</div>
+        <div class="status solid-dem">SOLID D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Maria Cantwell (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Raul Garcia (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 58.52%; top: 32px;" title="Kamala Harris (D): 58.52%"></div>
+        <div class="chart-label dem" style="left: 67.52%; top: 32px;">58.52%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 41.48%; top: 8px;" title="Donald Trump (R): 41.48%"></div>
+        <div class="chart-label rep" style="left: 48.48%; top: 8px;">41.48%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- New Mexico -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">New Mexico</div>
+       <div class="status solid-dem">SOLID D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Martin Heinrich (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Nella Domenici (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 58.82%; top: 8px;" title="Kamala Harris (D): 58.82%"></div>
+        <div class="chart-label dem" style="left: 65.82%; top: 8px;">58.82%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 41.18%; top: 322px;" title="Donald Trump (R): 41.18%"></div>
+        <div class="chart-label rep" style="left: 48.18%; top: 322px;">41.18%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Mississippi -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Mississippi</div>
+       <div class="status solid-rep">SAFE R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ty Pinkins (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>Roger Wicker (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 40.97%; top: 8px;" title="Kamala Harris (D): 40.97%"></div>
+        <div class="chart-label dem" style="left: 47.97%; top: 8px;">40.97%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 59.03%; top: 32px;" title="Donald Trump (R): 59.03%"></div>
+        <div class="chart-label rep" style="left: 66.03%; top: 32px;">59.03%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Nebraska - Special -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Nebraska - Special</div>
+       <div class="status solid-rep">SAFE R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Preston Love Jr. (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>Pete Ricketts (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 39.54%; top: 8px;" title="Kamala Harris (D): 39.54%"></div>
+        <div class="chart-label dem" style="left: 46.54%; top: 8px;">39.54%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 60.46%; top: 32px;" title="Donald Trump (R): 60.46%"></div>
+        <div class="chart-label rep" style="left: 67.46%; top: 32px;">60.46%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- California -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">California</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Adam Schiff (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Steve Garvey (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 60.47%; top: 8px;" title="Kamala Harris (D): 60.47%"></div>
+        <div class="chart-label dem" style="left: 67.47%; top: 8px;">60.47%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 39.53%; top: 32px;" title="Donald Trump (R): 39.53%"></div>
+        <div class="chart-label rep" style="left: 46.53%; top: 32px;">39.53%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Delaware -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Delaware</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Lisa Blunt Rochester (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Eric Hansen (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 60.51%; top: 8px;" title="Kamala Harris (D): 60.51%"></div>
+        <div class="chart-label dem" style="left: 67.51%; top: 8px;">60.51%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 39.49%; top: 32px;" title="Donald Trump (R): 39.49%"></div>
+        <div class="chart-label rep" style="left: 46.49%; top: 32px;">39.49%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- North Dakota -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">North Dakota</div>
+       <div class="status solid-rep">SAFE R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Katrina Christiansen (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>Kevin Cramer (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 39.26%; top: 8px;" title="Kamala Harris (D): 39.26%"></div>
+        <div class="chart-label dem" style="left: 46.26%; top: 8px;">39.26%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 60.74%; top: 32px;" title="Donald Trump (R): 60.74%"></div>
+        <div class="chart-label rep" style="left: 67.74%; top: 32px;">60.74%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Maryland -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Maryland</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Angela Alsobrooks (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Larry Hogan (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 60.93%; top: 8px;" title="Kamala Harris (D): 60.93%"></div>
+        <div class="chart-label dem" style="left: 67.93%; top: 8px;">60.93%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 39.07%; top: 32px;" title="Donald Trump (R): 39.07%"></div>
+        <div class="chart-label rep" style="left: 46.07%; top: 32px;">39.07%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Tennessee -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Tennessee</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Gloria Johnson (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>Marsha Blackburn (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 38.98%; top: 8px;" title="Kamala Harris (D): 38.98%"></div>
+        <div class="chart-label dem" style="left: 45.98%; top: 8px;">38.98%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 61.02%; top: 32px;" title="Donald Trump (R): 61.02%"></div>
+        <div class="chart-label rep" style="left: 68.02%; top: 32px;">61.02%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Rhode Island -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Rhode Island</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Sheldon Whitehouse (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Patricia Morgan (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 61.75%; top: 8px;" title="Kamala Harris (D): 61.75%"></div>
+        <div class="chart-label dem" style="left: 68.75%; top: 8px;">61.75%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 38.25%; top: 32px;" title="Donald Trump (R): 38.25%"></div>
+        <div class="chart-label rep" style="left: 45.25%; top: 32px;">38.25%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Utah -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Utah</div>
+       <div class="status solid-rep">SAFE R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Caroline Gleich (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>John Curtis (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 34.24%; top: 8px;" title="Kamala Harris (D): 34.24%"></div>
+        <div class="chart-label dem" style="left: 41.24%; top: 8px;">34.24%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 65.76%; top: 32px;" title="Donald Trump (R): 65.76%"></div>
+        <div class="chart-label rep" style="left: 72.76%; top: 32px;">65.76%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- New York -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">New York</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Kirsten Gillibrand (inc) (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Mike Sapraicone (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 66.12%; top: 8px;" title="Kamala Harris (D): 66.12%"></div>
+        <div class="chart-label dem" style="left: 73.12%; top: 8px;">66.12%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 33.88%; top: 32px;" title="Donald Trump (R): 33.88%"></div>
+        <div class="chart-label rep" style="left: 40.88%; top: 32px;">33.88%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Massachusetts -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Massachusetts</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Elizabeth Warren (inc) (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>John Deaton (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 66.29%; top: 8px;" title="Kamala Harris (D): 66.29%"></div>
+        <div class="chart-label dem" style="left: 73.29%; top: 8px;">66.29%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 33.71%; top: 32px;" title="Donald Trump (R): 33.71%"></div>
+        <div class="chart-label rep" style="left: 40.71%; top: 32px;">33.71%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Vermont -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Vermont</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bernie Sanders (inc) (I-D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Gerald Malloy (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 66.34%; top: 8px;" title="Kamala Harris (D): 66.34%"></div>
+        <div class="chart-label dem" style="left: 73.34%; top: 8px;">66.34%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 33.66%; top: 32px;" title="Donald Trump (R): 33.66%"></div>
+        <div class="chart-label rep" style="left: 40.66%; top: 32px;">33.66%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Hawaii -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Hawaii</div>
+       <div class="status solid-dem">SAFE D</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Mazie Hirono (inc) (D)</td>
+                <td class="chance dem">10 in 10</td>
+            </tr>
+            <tr>
+                <td>Bob McDermott (R)</td>
+                <td class="chance rep">0 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 67.44%; top: 8px;" title="Kamala Harris (D): 67.44%"></div>
+        <div class="chart-label dem" style="left: 74.44%; top: 8px;">67.44%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 32.56%; top: 32px;" title="Donald Trump (R): 32.56%"></div>
+        <div class="chart-label rep" style="left: 39.56%; top: 32px;">32.56%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- Wyoming -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">Wyoming</div>
+       <div class="status solid-rep">SAFE R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Scott Morrow (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>John Barrasso (inc) (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 30.70%; top: 8px;" title="Kamala Harris (D): 30.70%"></div>
+        <div class="chart-label dem" style="left: 37.70%; top: 8px;">30.70%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 69.30%; top: 32px;" title="Donald Trump (R): 69.30%"></div>
+        <div class="chart-label rep" style="left: 76.30%; top: 32px;">69.30%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+<!-- West Virginia -->
+<div class="state-forecast">
+    <div class="header">
+        <div class="state">West Virginia</div>
+       <div class="status solid-rep">SAFE R</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Candidate</th>
+                <th class="chance">Chance of Winning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Glenn Elliott (D)</td>
+                <td class="chance dem">0 in 10</td>
+            </tr>
+            <tr>
+                <td>Jim Justice (R)</td>
+                <td class="chance rep">10 in 10</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="forecast-label">Forecasted Vote Share</div>
+    <div class="chart-container">
+        <div class="chart-dot dem-dot" style="left: 29.17%; top: 8px;" title="Kamala Harris (D): 29.17%"></div>
+        <div class="chart-label dem" style="left: 36.17%; top: 8px;">29.17%</div>
+        
+        <div class="chart-dot rep-dot" style="left: 70.83%; top: 32px;" title="Donald Trump (R): 70.83%"></div>
+        <div class="chart-label rep" style="left: 77.83%; top: 32px;">70.83%</div>
+    </div>
+    <div class="x-axis">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+        <span>80%</span>
+        <span>100%</span>
+    </div>
+</div>
+
+
+</div>
+
+
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+
+    function openPage(page) {
+        window.location.href = page;
+    }
+</script>
+
+
+</body>
+
+</html>
