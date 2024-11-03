@@ -127,7 +127,32 @@
                 padding: 20px;
             }
         }
-    </style>
+    button:hover {
+        background-color: #2980b9; /* Darker blue on hover */
+        transform: scale(1.05); /* Slightly enlarge the button on hover */
+    }
+
+	    .button-container {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    margin: 15px auto; /* Increased margin above and below the buttons */
+}
+
+</style>
+
+<link rel="icon" href="theo-forecast.github.io/favico.ico" type="image/x-icon">
+	
+    <div class="button-container">
+        <!-- Button to open the current page (Model) -->
+        <button onclick="openPage('index.html')">President Model</button>
+        <!-- Button to open the Polls page -->
+       <!-- <-button onclick="openPage('polls.html')">Polls</button> -->
+	 <!-- Button to open the Polls page -->
+        <button onclick="openPage('senate.html')">Senate Model</button>
+	      <button onclick="openPage('methdology.html')">Methodology</button>
+	    
+    </div>
+    </div>
 </head>
 <body>
     <header>
