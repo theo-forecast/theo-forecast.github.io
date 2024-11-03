@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Forecast Methodology</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #ffffff; 
+            --accent: #dc3545;
+            --text: #333333;
+            --bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 40px 0;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        h3 {
+            color: var(--primary);
+            margin: 25px 0 15px;
+        }
+
+        .section {
+            background: var(--secondary);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .methodology-intro {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .subsection {
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .timeline {
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--bg);
+            border-radius: 5px;
+            border-left: 4px solid var(--primary);
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 10px 0;
+            position: relative;
+        }
+
+        li:before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: -20px;
+        }
+
+        .simulation-section {
+            background: #f0f4f8;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Methodology for Forecast Model of the U.S. Presidential Election</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <div class="methodology-intro">
+                <p>Our forecast model integrates real-time polling, historical trends, and state-to-national adjustments to produce a nuanced projection of the national popular vote and individual state outcomes. Polling serves as the dominant predictive metric, with trends as secondary, context-providing variables. To capture the dynamic nature of voter sentiment, polling weights are further adjusted by the share of undecided voters, thereby ensuring that recent data carries proportionately greater significance. This approach assigns minimal influence to trend data compared to polling, as trends alone are less capable of capturing the effects of immediate political developments.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>National Popular Vote Forecast</h2>
+            <p>The national popular vote projection draws on a structured combination of historical trends, segmented polling, and swing-to-national vote adjustments. The methodology emphasizes polling data as the primary driver of prediction, using trend analysis as supplementary context.</p>
+            
+            <div class="subsection">
+                <h3>A. Trend Analysis</h3>
+                <p>Two main trend parameters represent recent and medium-term shifts in national partisanship:</p>
+                <ul>
+                    <li>4-Year Trend: Captures recent changes in partisan preferences, reflecting voter shifts in the latest election cycle.</li>
+                    <li>8-Year Trend: Provides a medium-term trend, accounting for gradual ideological shifts over multiple cycles and offering a broader historical perspective.</li>
+                </ul>
+                <p>These trends are applied with limited weight, as they provide valuable context but are subordinated to polling data in predictive importance.</p>
+            </div>
+
+            <div class="subsection">
+                <h3>B. Polling Data Segmentation</h3>
+                <p>Polling data is segmented to capture shifts in voter sentiment following key election milestones:</p>
+                <div class="timeline">
+                    <div class="timeline-item">January - July 22 (Biden Pre-Debate): Early sentiment before major candidate changes.</div>
+                    <div class="timeline-item">July 22 - August 5 (Biden Drops Out; Harris Joins the Race): Reflects initial polling impact of Vice President Harris entering the race.</div>
+                    <div class="timeline-item">August 5 - August 19 (Pre-Convention): Voter preferences before the conventions, with a focus on undecided trends as the race solidifies.</div>
+                    <div class="timeline-item">August 19 - September 10 (Kennedy Drops Out, Pre-Debate, Post-Convention): Tracks shifts from Kennedy's exit and the convention's impact, preparing for debates.</div>
+                    <div class="timeline-item">September 10 - October 1 (Labor Day + Post-Debate): Includes the Labor Day engagement boost and immediate post-debate reactions.</div>
+                    <div class="timeline-item">October 1 - November 5 (Final Polling Period): Captures pre-Election Day sentiment in the final weeks, where undecided shares decrease.</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>C. Polling Averages</h3>
+                <ul>
+                    <li>Flat Average: Aggregates all available polls, smoothing out extreme values over the period.</li>
+                    <li>Timely Average: Emphasizes recent polls, which tend to better reflect last-minute voter shifts.</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>D. State-to-National Vote Correlation Adjustments</h3>
+                <ul>
+                    <li>Swing State to National Adjustment: Emphasizes key battlegrounds where sentiment often reflects national trends.</li>
+                    <li>All States to National Adjustment: Uses a broader aggregation of states for a comprehensive national pattern.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Individual State Forecast</h2>
+            
+            <div class="subsection">
+                <h3>A. Trend Parameters</h3>
+                <ul>
+                    <li>2000-2020 Trend: Reflects long-term shifts over multiple cycles.</li>
+                    <li>2012-2020 Trend: Captures voter patterns from the last two cycles.</li>
+                    <li>2016-2020 Trend: Represents very recent shifts but is assigned minimal weight.</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>B. National-to-State Vote Adjustments</h3>
+                <ul>
+                    <li>National to State (1992-2020): Captures long-term correlations with the national vote.</li>
+                    <li>National to State (2012-2020): Emphasizes recent alignment trends.</li>
+                    <li>2020 National to State: Uses 2020 as a baseline for reflecting each state's response to the latest political landscape.</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>C. Polling Data and Time Sensitivity</h3>
+                <ul>
+                    <li>Last Month Poll Average: Focuses on the final month's trends with high weight for states where undecided shares are low.</li>
+                    <li>First Six Months Poll Average: Establishes an early baseline for longer-term shifts.</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>D. Third-Party Vote Adjustment</h3>
+                <p>This adjustment accounts for third-party vote shares, capturing their distinct effects in each state.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="simulation-section">
+                <h2>Probabilistic Simulation of Electoral Outcomes</h2>
+                <p>To assess the probabilities of each candidate achieving an electoral majority, we utilize a simulation framework that generates thousands of hypothetical electoral scenarios. This approach leverages inter-state correlations, capturing shared regional and demographic trends that influence voting behavior across similar states. By modeling these relationships, the simulation reflects a more nuanced portrayal of real-world electoral dynamics.</p>
+                
+                <div class="subsection">
+                    <h3>Vote Simulation Mechanism</h3>
+                    <p>For each state, projected popular vote shares are adjusted by random fluctuations following a normal distribution. However, these adjustments are not entirely independent; instead, correlated shifts are applied to groups of states with similar political, economic, or geographic characteristics.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Electoral Vote Accumulation</h3>
+                    <p>After determining the outcome for each state in a given simulation, that state's electoral votes are allocated to the prevailing candidate. This process is repeated across numerous simulations, yielding distributions for each candidate's total electoral votes and capturing the potential for synchronous trends across states.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Win Probability Calculation</h3>
+                    <p>The proportion of simulations in which each candidate secures 270 or more electoral votes is calculated, providing the estimated probability of each candidate's victory. By incorporating state-level correlations, these probabilities more accurately represent the likely impacts of regional trends and potential shifts in the electoral landscape.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Frequent Scenario Analysis</h3>
+                    <p>By identifying configurations of electoral votes that recur across simulations, we infer the most probable pathways to victory for each candidate. This highlights not only the likelihood of specific outcomes but also the potential for correlated shifts in voter sentiment across key regions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Final Adjustments and Forecast Aggregation</h2>
+            <p>The final forecast integrates all parameters, with polling data's weight adjusted by undecided voter shares to prioritize immediate voter sentiment. Trends add historical context but do not meaningfully shift projections, as they are outweighed by real-time polling data. This emphasis ensures that the model remains both responsive to recent developments and grounded in historical continuity.</p>
+        </div>
+    </div>
+</body>
+</html>
